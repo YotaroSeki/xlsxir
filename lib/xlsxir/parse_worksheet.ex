@@ -42,6 +42,8 @@ defmodule Xlsxir.ParseWorksheet do
     [0, 1, 2]
     |> Enum.each(&IO.inspect(:ets.lookup(workbook_tid, &1)))
 
+    IO.inspect(rid)
+
     worksheet_name =
       List.foldl(:ets.lookup(workbook_tid, rid), nil, fn value, _ ->
         case value do
