@@ -20,6 +20,7 @@ defmodule Xlsxir.ParseWorkbook do
             %{sheet | name: name |> to_string |> IO.inspect()}
 
           {:attribute, 'sheetId', _, _, sheet_id} ->
+            IO.inspect(raw_sheet_id: sheet_id)
             {sheet_id, _} = sheet_id |> to_string |> Integer.parse()
             IO.inspect("sheet_id: #{sheet_id}")
             %{sheet | sheet_id: sheet_id}
