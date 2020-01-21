@@ -17,15 +17,17 @@ defmodule Xlsxir.ParseWorkbook do
       Enum.reduce(xml_attrs, %{name: nil, sheet_id: nil, rid: nil}, fn attr, sheet ->
         case attr do
           {:attribute, 'name', _, _, name} ->
-            %{sheet | name: name |> to_string}
+            %{sheet | name: name |> to_string |> IO.inspect}
 
           {:attribute, 'sheetId', _, _, sheet_id} ->
             {sheet_id, _} = sheet_id |> to_string |> Integer.parse()
+            IO.inspect({sheet_id: sheet_id})
             %{sheet | sheet_id: sheet_id}
 
           {:attribute, 'id', _, _, rid} ->
             "rId" <> rid = rid |> to_string
             {rid, _} = Integer.parse(rid)
+            IO.inspect({rid: rid})
             %{sheet | rid: rid}
 
           _ ->
@@ -38,6 +40,7 @@ defmodule Xlsxir.ParseWorkbook do
 
   def sax_event_handler(:endDocument, %__MODULE__{tid: tid} = state) do
     Enum.map(state.sheets, fn %{rid: rid, name: name} ->
+      IO.inspect({rid, name})
       :ets.insert(tid, {rid, name})
     end)
 

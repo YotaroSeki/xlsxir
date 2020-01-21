@@ -39,6 +39,9 @@ defmodule Xlsxir.ParseWorksheet do
     "sheet" <> remained = xml_name
     {rid, _} = Integer.parse(remained)
 
+    [0, 1, 2]
+    |> Enum.each(&IO.inspect(:ets.lookup(workbook_tid, &1)))
+
     worksheet_name =
       List.foldl(:ets.lookup(workbook_tid, rid), nil, fn value, _ ->
         case value do
